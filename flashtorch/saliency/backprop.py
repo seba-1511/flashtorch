@@ -217,8 +217,9 @@ class Backprop:
 
     def _register_conv_hook(self):
         def _record_gradients(module, grad_in, grad_out):
-            if grad_in[0] is not None and self.gradients.shape == grad_in[0].shape:
-                self.gradients = grad_in[0]
+            if grad_in[0] is not None:
+                if self.gradients.shape == grad_in[0].shape:
+                    self.gradients = grad_in[0]
 
         for _, module in self.model.named_modules():
             if isinstance(module, nn.modules.conv.Conv2d):

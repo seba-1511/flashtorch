@@ -110,15 +110,16 @@ def denormalize(tensor):
 
     """
 
-    means = [0.485, 0.456, 0.406]
-    stds = [0.229, 0.224, 0.225]
-
-    denormalized = tensor.clone()
-
-    for channel, mean, std in zip(denormalized[0], means, stds):
-        channel.mul_(std).add_(mean)
-
-    return denormalized
+    return tensor
+#    means = [0.485, 0.456, 0.406]
+#    stds = [0.229, 0.224, 0.225]
+#
+#    denormalized = tensor.clone()
+#
+#    for channel, mean, std in zip(denormalized[0], means, stds):
+#        channel.mul_(std).add_(mean)
+#
+#    return denormalized
 
 
 def standardize_and_clip(tensor, min_value=0.0, max_value=1.0,

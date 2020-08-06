@@ -133,7 +133,7 @@ class Backprop:
 
     def visualize(self, input_, target_class, guided=False, use_gpu=False,
                   figsize=(16, 4), cmap='viridis', alpha=.5,
-                  return_output=False):
+                  return_output=False, return_fig=False):
         """Calculates gradients and visualizes the output.
 
         A method that combines the backprop operation and visualization.
@@ -176,6 +176,7 @@ class Backprop:
 
         # Setup subplots
 
+        input_ = input_.cpu()
         subplots = [
             # (title, [(image1, cmap, alpha), (image2, cmap, alpha)])
             ('Input image',
@@ -207,6 +208,8 @@ class Backprop:
 
         if return_output:
             return gradients, max_gradients
+        if return_fig:
+            return fig, ax
 
     #####################
     # Private interface #
@@ -214,7 +217,7 @@ class Backprop:
 
     def _register_conv_hook(self):
         def _record_gradients(module, grad_in, grad_out):
-            if self.gradients.shape == grad_in[0].shape:
+            if grad_in[0] is not None and self.gradients.shape == grad_in[0].shape:
                 self.gradients = grad_in[0]
 
         for _, module in self.model.named_modules():
